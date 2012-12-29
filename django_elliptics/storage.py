@@ -59,6 +59,11 @@ class EllipticsStorage (storage.Storage):
     def _get_default(self, name):
         setting_name = 'ELLIPTICS_%s' % (name.upper(),)
         return getattr(conf.settings, setting_name, self.default_settings[name])
+        
+    def get_available_name(self, name):
+    	# Otherwise django will append _1, _2, ..., _n to name and call self.exists
+    	# until it finds a name that isn't taken.
+    	return name
 
     def delete(self, name):
         url = self._make_private_url('delete', name)
